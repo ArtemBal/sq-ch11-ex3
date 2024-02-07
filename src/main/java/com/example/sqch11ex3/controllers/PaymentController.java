@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @RestController
 public class PaymentController {
+
+    Logger logger = Logger.getLogger(PaymentController.class.getName());
 
     private final PaymentProxy paymentProxy;
 
@@ -21,6 +24,9 @@ public class PaymentController {
     @PostMapping("/payment")
     public Mono<Payment> createPayment(@RequestBody Payment payment) {
         String requestId = UUID.randomUUID().toString();
+
+        logger.info("Create payment with ID " + requestId);
+
         return paymentProxy.createPayment(requestId, payment);
     }
 }
